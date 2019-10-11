@@ -14,7 +14,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping(BeerController.BASE_URL)
 public class BeerController {
-  static final String BASE_URL = "/api/v1/beer";
+  static final String BASE_URL = "/api/v1/beers";
 
   private final BeerService beerService;
 
