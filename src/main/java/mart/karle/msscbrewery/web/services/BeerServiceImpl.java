@@ -17,4 +17,9 @@ public class BeerServiceImpl implements BeerService {
     beerDto.setId(UUID.randomUUID());
     return beerDto;
   }
+
+  @Override
+  public void updateBeer(final UUID beerId, final BeerDto beerDto) {
+    // TODO: implement this
+  }
 }
