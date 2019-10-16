@@ -23,7 +23,5 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   @Override
-  public void deleteById(final UUID customerId) {
-
-  }
+  public void deleteById(final UUID customerId) {}
 }

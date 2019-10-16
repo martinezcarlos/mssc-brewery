@@ -33,17 +33,19 @@ public class BeerController {
   @PostMapping("/new")
   public ResponseEntity<BeerDto> saveNewBeer(@RequestBody final BeerDto beerDto) {
     final BeerDto createdDto = beerService.saveNewBeer(beerDto);
-    //TODO: add hostname to url
+    // TODO: add hostname to url
     return ResponseEntity.status(HttpStatus.CREATED)
         .header("Location", BASE_URL + "/" + createdDto.getId().toString())
         .body(createdDto);
   }
 
   @PutMapping("/{beerId}")
-  public ResponseEntity<Void> updateBeer(@PathVariable final UUID beerId, @RequestBody final BeerDto beerDto) {
+  public ResponseEntity<Void> updateBeer(
+      @PathVariable final UUID beerId, @RequestBody final BeerDto beerDto) {
     beerService.updateBeer(beerId, beerDto);
     return ResponseEntity.status(HttpStatus.NO_CONTENT)
-        .header("Location", BASE_URL + "/" + beerId.toString()).build();
+        .header("Location", BASE_URL + "/" + beerId.toString())
+        .build();
   }
 
   @DeleteMapping("/{beerId}")

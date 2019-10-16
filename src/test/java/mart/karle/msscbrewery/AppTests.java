@@ -10,7 +10,5 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class AppTests {
 
   @Test
-  void contextLoads() {
-  }
-
+  void contextLoads() {}
 }

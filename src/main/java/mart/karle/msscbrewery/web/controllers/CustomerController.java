@@ -33,17 +33,19 @@ public class CustomerController {
   @PostMapping("/new")
   public ResponseEntity<CustomerDto> saveNewCustomer(@RequestBody final CustomerDto customerDto) {
     final CustomerDto createdDto = customerService.saveNewCustomer(customerDto);
-    //TODO: add hostname to url
+    // TODO: add hostname to url
     return ResponseEntity.status(HttpStatus.CREATED)
         .header("Location", BASE_URL + "/" + createdDto.getId().toString())
         .body(createdDto);
   }
 
   @PutMapping("/{customerId}")
-  public ResponseEntity<Void> updateCustomer(@PathVariable final UUID customerId, @RequestBody final CustomerDto customerDto) {
+  public ResponseEntity<Void> updateCustomer(
+      @PathVariable final UUID customerId, @RequestBody final CustomerDto customerDto) {
     customerService.updateCustomer(customerId, customerDto);
     return ResponseEntity.status(HttpStatus.NO_CONTENT)
-        .header("Location", BASE_URL + "/" + customerId.toString()).build();
+        .header("Location", BASE_URL + "/" + customerId.toString())
+        .build();
   }
 
   @DeleteMapping("/{customerId}")
