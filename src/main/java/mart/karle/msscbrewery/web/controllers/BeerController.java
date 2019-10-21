@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.UUID;
 
 @RestController
@@ -34,10 +36,12 @@ public class BeerController {
   @PostMapping("/new")
   public ResponseEntity<BeerDto> saveNewBeer(@Valid @RequestBody final BeerDto beerDto) {
     final BeerDto createdDto = beerService.saveNewBeer(beerDto);
-    // TODO: add hostname to url
-    return ResponseEntity.status(HttpStatus.CREATED)
-        .header("Location", BASE_URL + "/" + createdDto.getId().toString())
-        .body(createdDto);
+    final URI location =
+        UriComponentsBuilder.fromUriString(BASE_URL)
+            .pathSegment(createdDto.getId().toString())
+            .build()
+            .toUri();
+    return ResponseEntity.created(location).body(createdDto);
   }
 
   @PutMapping("/{beerId}")
