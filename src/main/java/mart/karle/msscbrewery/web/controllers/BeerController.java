@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -31,7 +32,7 @@ public class BeerController {
   }
 
   @PostMapping("/new")
-  public ResponseEntity<BeerDto> saveNewBeer(@RequestBody final BeerDto beerDto) {
+  public ResponseEntity<BeerDto> saveNewBeer(@Valid @RequestBody final BeerDto beerDto) {
     final BeerDto createdDto = beerService.saveNewBeer(beerDto);
     // TODO: add hostname to url
     return ResponseEntity.status(HttpStatus.CREATED)
@@ -41,7 +42,7 @@ public class BeerController {
 
   @PutMapping("/{beerId}")
   public ResponseEntity<Void> updateBeer(
-      @PathVariable final UUID beerId, @RequestBody final BeerDto beerDto) {
+      @PathVariable final UUID beerId, @Valid @RequestBody final BeerDto beerDto) {
     beerService.updateBeer(beerId, beerDto);
     return ResponseEntity.status(HttpStatus.NO_CONTENT)
         .header("Location", BASE_URL + "/" + beerId.toString())
@@ -50,7 +51,7 @@ public class BeerController {
 
   @DeleteMapping("/{beerId}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void deleteBeer(@PathVariable final UUID beerId) {
+  public void deleteBeer(@Valid @PathVariable final UUID beerId) {
     beerService.deleteById(beerId);
   }
 }
