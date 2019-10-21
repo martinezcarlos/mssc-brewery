@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -31,7 +32,8 @@ public class CustomerController {
   }
 
   @PostMapping("/new")
-  public ResponseEntity<CustomerDto> saveNewCustomer(@RequestBody final CustomerDto customerDto) {
+  public ResponseEntity<CustomerDto> saveNewCustomer(
+      @Valid @RequestBody final CustomerDto customerDto) {
     final CustomerDto createdDto = customerService.saveNewCustomer(customerDto);
     // TODO: add hostname to url
     return ResponseEntity.status(HttpStatus.CREATED)
@@ -41,7 +43,7 @@ public class CustomerController {
 
   @PutMapping("/{customerId}")
   public ResponseEntity<Void> updateCustomer(
-      @PathVariable final UUID customerId, @RequestBody final CustomerDto customerDto) {
+      @PathVariable final UUID customerId, @Valid @RequestBody final CustomerDto customerDto) {
     customerService.updateCustomer(customerId, customerDto);
     return ResponseEntity.status(HttpStatus.NO_CONTENT)
         .header("Location", BASE_URL + "/" + customerId.toString())
