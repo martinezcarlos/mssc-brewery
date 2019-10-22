@@ -2,6 +2,7 @@ package mart.karle.msscbrewery.web.controllers;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -40,5 +41,10 @@ public class ControllerExceptionHandler {
             .collect(
                 Collectors.toCollection(() -> new ArrayList<>(e.getConstraintViolations().size())));
     return ResponseEntity.badRequest().body(errors);
+  }
+
+  @ExceptionHandler(BindException.class)
+  public ResponseEntity<List> bindExceptionHandler(final BindException e) {
+    return ResponseEntity.badRequest().body(e.getAllErrors());
   }
 }
