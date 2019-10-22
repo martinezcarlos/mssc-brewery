@@ -2,9 +2,12 @@ package mart.karle.msscbrewery.web.controllers;
 
 import lombok.RequiredArgsConstructor;
 import mart.karle.msscbrewery.web.command.CustomerDto;
+import mart.karle.msscbrewery.web.markers.OnCreate;
+import mart.karle.msscbrewery.web.markers.OnUpdate;
 import mart.karle.msscbrewery.web.services.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.UUID;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(CustomerController.BASE_URL)
@@ -33,7 +37,7 @@ public class CustomerController {
 
   @PostMapping("/new")
   public ResponseEntity<CustomerDto> saveNewCustomer(
-      @Valid @RequestBody final CustomerDto customerDto) {
+      @Validated(OnCreate.class) @RequestBody final CustomerDto customerDto) {
     final CustomerDto createdDto = customerService.saveNewCustomer(customerDto);
     // TODO: add hostname to url
     return ResponseEntity.status(HttpStatus.CREATED)
@@ -41,6 +45,7 @@ public class CustomerController {
         .body(createdDto);
   }
 
+  @Validated(OnUpdate.class)
   @PutMapping("/{customerId}")
   public ResponseEntity<Void> updateCustomer(
       @PathVariable final UUID customerId, @Valid @RequestBody final CustomerDto customerDto) {

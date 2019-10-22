@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.validation.ConstraintViolationException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,8 +37,7 @@ public class ControllerExceptionHandler {
     final List<String> errors =
         e.getConstraintViolations().stream()
             .map(c -> String.format("%s : %s", c.getPropertyPath(), c.getMessage()))
-            .collect(
-                Collectors.toCollection(() -> new ArrayList<>(e.getConstraintViolations().size())));
+            .collect(Collectors.toList());
     return ResponseEntity.badRequest().body(errors);
   }
 
