@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
-import javax.validation.constraints.Positive;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
@@ -18,5 +19,10 @@ public class BeerDto {
   @Null private UUID id;
   @NotBlank private String name;
   @NotBlank private String style;
-  @Positive private Long upc;
+
+  @Range(min = 10, max = 100)
+  private Long upc;
+
+  private OffsetDateTime creationDate;
+  private OffsetDateTime lastUpdatedDate;
 }
